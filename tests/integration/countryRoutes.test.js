@@ -4,16 +4,16 @@ import countryRoutes from '../../routes/countryRoutes.js';
 
 const app = express();
 app.use(express.json());
-app.use('/api', countryRoutes);
+app.use('/', countryRoutes);
 
-test('GET /api/countries should return list of countries', async () => {
-  const res = await request(app).get('/api/countries');
+test('GET /countries should return list of countries', async () => {
+  const res = await request(app).get('/countries');
   expect(res.statusCode).toBe(200);
   expect(Array.isArray(res.body)).toBe(true);
 });
 
-test('GET /api/countries/Canada should return details of Canada', async () => {
-  const res = await request(app).get('/api/countries/Canada');
+test('GET /countries/Canada should return details of Canada', async () => {
+  const res = await request(app).get('/countries/Canada');
   expect(res.statusCode).toBe(200);
   expect(res.body.name).toBe('Canada');
 });
