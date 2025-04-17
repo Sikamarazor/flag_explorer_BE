@@ -24,7 +24,6 @@ export const mockCountryDetails = [{
 
 /**
  * 
- * @returns mockCountries
  * Gets all countries
  */
 export async function fetchAllCountries() {
@@ -34,8 +33,7 @@ export async function fetchAllCountries() {
 
 /**
  * 
- * @param name 
- * 
+ * @param {string} name - The common name of the country
  * Gets a country by name
  */
 export async function fetchCountryDetails(name) {

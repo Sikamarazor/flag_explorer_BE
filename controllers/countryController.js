@@ -1,39 +1,59 @@
 import * as countryService from '../services/countryService.js';
+import { CountrySchema, CountryDetailsSchema } from '../schemas/countrySchema.js';
 
 /**
- * Controller function to handle GET /countries
- * Responds with a list of countries (name and flag)
+ * Controller to handle GET /countries
+ * Fetches a list of countries and validates each using the Country schema
  */
 export async function getAllCountries(req, res) {
   try {
-    // Fetch all countries using the service
+    // Call the service to fetch all countries (returns basic info)
     const countries = await countryService.fetchAllCountries();
-    // Send the countries back with a 200 OK status
-    res.status(200).json(countries);
+
+    // Validate each country using the Country schema
+    const validated = countries.map(country => {
+      const { error, value } = CountrySchema.validate(country);
+
+      // If validation fails, throw an error to be caught below
+      if (error) throw new Error(`Invalid country data: ${error.message}`);
+
+      return value; // return the validated country
+    });
+
+    // If all is valid, return the validated array
+    res.status(200).json(validated);
   } catch (err) {
-    // If an error occurs, respond with a 500 Internal Server Error
-    res.status(500).json({ error: 'Failed to fetch countries' });
+    // Handle internal errors or validation issues
+    res.status(500).json({ error: err.message || 'Failed to fetch countries' });
   }
 }
 
 /**
- * Controller function to handle GET /countries/:name
- * Responds with detailed information about a specific country
+ * Controller to handle GET /countries/:name
+ * Fetches a specific country by name and validates it using the CountryDetails schema
  */
 export async function getCountryByName(req, res) {
   try {
-    // Fetch country details based on the name parameter in the route
+    // Fetch detailed info for the country by name
     const country = await countryService.fetchCountryDetails(req.params.name);
 
-    // If the country is not found, return 404 Not Found
+    // If not found, respond with 404
     if (!country) {
       return res.status(404).json({ error: 'Country not found' });
     }
 
-    // Send the found country data with a 200 OK status
-    res.status(200).json(country);
+    // Validate the detailed country object
+    const { error, value } = CountryDetailsSchema.validate(country);
+
+    // If validation fails, respond with 400 Bad Request
+    if (error) {
+      return res.status(400).json({ error: `Invalid country details: ${error.message}` });
+    }
+
+    // Return the validated country details
+    res.status(200).json(value);
   } catch (err) {
-    // If an error occurs, respond with a 500 Internal Server Error
-    res.status(500).json({ error: 'Failed to fetch country details' });
+    // Catch and return any internal errors
+    res.status(500).json({ error: err.message || 'Failed to fetch country details' });
   }
 }
