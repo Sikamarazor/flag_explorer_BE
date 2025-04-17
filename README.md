@@ -7,7 +7,7 @@ Start by executing npm install
 
 In the project directory, you can run:
 
-### `node index.js`
+### `node index.js` or `npm run start`
 
 Runs the app in the development mode.\
 It will the server at port 3000 [http://localhost:3000]
