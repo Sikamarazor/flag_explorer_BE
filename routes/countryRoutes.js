@@ -3,7 +3,7 @@ import { getAllCountries, getCountryByName } from '../controllers/countryControl
 
 const router = express.Router();
 
-router.get('/countries', getAllCountries);
-router.get('/countries/:name', getCountryByName);
+router.get('/countries', getAllCountries); // Get all countries
+router.get('/countries/:name', getCountryByName); // Get country by name
 
 export default router;

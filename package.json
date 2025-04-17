@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node index.js",
-    "test": "jest"
+    "test": "mocha \"test/**/*.test.js\""
   },
   "author": "Lefa",
   "license": "ISC",
@@ -15,12 +15,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "nodemon": "^3.1.9",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
+    "chai": "^5.2.0",
+    "mocha": "^11.1.0",
     "supertest": "^7.1.0"
   }
 }
